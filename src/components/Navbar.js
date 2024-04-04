@@ -6,8 +6,7 @@ const Navbar = () => {
   const inHome = useLocation().pathname === '/'
   let location = useLocation();
   React.useEffect(() => {
-    // Google Analytics
-    console.log(location)
+    // console.log(location)
   }, [location]);
   return (
     <div><nav className="navbar navbar-expand-lg bg-body-tertiary">
