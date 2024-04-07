@@ -9,7 +9,7 @@ router.get('/fetchall',
     async (req, res) => {
         try {
             const notes = await Notes.find({ user: req.user.id })
-            console.log(`Notes found for user ${req.user.id}: ${notes}`)
+            // console.log(`Notes found for user ${req.user.id}: ${notes}`)
             res.json(notes)
         }
         catch (err) {

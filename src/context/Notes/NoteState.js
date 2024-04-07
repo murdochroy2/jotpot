@@ -6,62 +6,6 @@ const NoteState = (props) => {
     name: "Rohi",
     class: 1
   }
-  // let initialNotes = [
-  //   {
-  //     "_id": "660034d258a478ce4e4caff5",
-  //     "user": "65fe7ed934c5d2b37544b032",
-  //     "name": "My first note",
-  //     "description": "The description of my first note",
-  //     "tag": "General",
-  //     "date": "2024-03-24T14:12:34.760Z",
-  //     "__v": 0
-  //   },
-  //   {
-  //     "_id": "66003ca1196e2b4418fd9cc1",
-  //     "user": "65fe7ed934c5d2b37544b032",
-  //     "name": "My second note, modified",
-  //     "description": "The description of my note",
-  //     "tag": "Others",
-  //     "date": "2024-03-24T14:45:53.830Z",
-  //     "__v": 0
-  //   },
-  //   {
-  //     "_id": "660034d258a478ce4e4caff5",
-  //     "user": "65fe7ed934c5d2b37544b032",
-  //     "name": "My first note",
-  //     "description": "The description of my first note",
-  //     "tag": "General",
-  //     "date": "2024-03-24T14:12:34.760Z",
-  //     "__v": 0
-  //   },
-  //   {
-  //     "_id": "66003ca1196e2b4418fd9cc1",
-  //     "user": "65fe7ed934c5d2b37544b032",
-  //     "name": "My second note, modified",
-  //     "description": "The description of my note",
-  //     "tag": "Others",
-  //     "date": "2024-03-24T14:45:53.830Z",
-  //     "__v": 0
-  //   },
-  //   {
-  //     "_id": "660034d258a478ce4e4caff5",
-  //     "user": "65fe7ed934c5d2b37544b032",
-  //     "name": "My first note",
-  //     "description": "The description of my first note",
-  //     "tag": "General",
-  //     "date": "2024-03-24T14:12:34.760Z",
-  //     "__v": 0
-  //   },
-  //   {
-  //     "_id": "66003ca1196e2b4418fd9cc1",
-  //     "user": "65fe7ed934c5d2b37544b032",
-  //     "name": "My second note, modified",
-  //     "description": "The description of my note",
-  //     "tag": "Others",
-  //     "date": "2024-03-24T14:45:53.830Z",
-  //     "__v": 0
-  //   }
-  // ]
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
   const getNotes = async () => {
@@ -72,7 +16,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmZTdlZDkzNGM1ZDJiMzc1NDRiMDMyIn0sImlhdCI6MTcxMTE5MDc2N30.kzkbMDOJbYmqVMGeIPgsGiYL9SUxHQu-zWTYDxHwK_s"
-      },
+      }
       // body: JSON.stringify(data) // body data type must match "Content-Type" header
     }
     const response = await fetch(url, requestInit)
@@ -119,7 +63,7 @@ const NoteState = (props) => {
     setNotes(newNotes)
   }
   const editNote = async (id, title, description, tag) => {
-    notes.map(
+    const editedNotes = notes.map(
       note => {
         if (note._id === id) {
           note.name = title
@@ -129,9 +73,20 @@ const NoteState = (props) => {
         return note
       }
     )
-    setNotes(notes)
     const url = `${host}/api/notes/update/${id}`
-    await makeRequest(url, { name: title, description: description, tag: tag })
+    const method = "PUT"
+    const data = { name: title, description: description, tag: tag }
+    const requestInit = {
+      method: method, // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmZTdlZDkzNGM1ZDJiMzc1NDRiMDMyIn0sImlhdCI6MTcxMTE5MDc2N30.kzkbMDOJbYmqVMGeIPgsGiYL9SUxHQu-zWTYDxHwK_s"
+      },
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    }
+    const response = await fetch(url, requestInit)
+    const status = response.status
+    status === 200 && setNotes(editedNotes)
   }
 
   // Example POST method implementation:

@@ -5,19 +5,21 @@ import AddNote from './AddNote'
 
 const Notes = () => {
     const { notes, getNotes, editNote } = useContext(noteContext)
-    const [editedNote, setEditedNote] = useState({etitle: "", edescription: "", etag: ""})
+    const [editedNote, setEditedNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
     useEffect(() => {
         getNotes()
-    }, [])
+    }, //[]
+    )
     const ref = useRef(null)
-    const openEditModal = (currentNote) => {
+    const modalCloseRef = useRef(null)
+    const handleEditModalChanges = (currentNote) => {
         ref.current.click()
-        setEditedNote({etitle: currentNote.name, edescription: currentNote.description, etag: currentNote.tag})
+        setEditedNote({ id: currentNote._id, etitle: currentNote.name, edescription: currentNote.description, etag: currentNote.tag })
     }
     const handleEditNote = (e) => {
         e.preventDefault()
-        console.log("Editing Note: ", editedNote)
-        // editNote(editedNote.title, editedNote.description, editedNote.tag)
+        editNote(editedNote.id, editedNote.etitle, editedNote.edescription, editedNote.etag)
+        modalCloseRef.current.click()
     }
     const onChange = (e) => {
         setEditedNote({ ...editedNote, [e.target.name]: e.target.value })
@@ -41,12 +43,12 @@ const Notes = () => {
                                 <form>
                                     <div className="mb-3">
                                         <label htmlFor="title" className="form-label">Title</label>
-                                        <input type="text" className="form-control" id="etitle" name="etitle" value={editedNote.etitle} aria-describedby="titleHelp" onChange={onChange} />
+                                        <input type="text" className="form-control" id="etitle" name="etitle" value={editedNote.etitle} aria-describedby="titleHelp" onChange={onChange} minLength={5} />
                                         <div id="titleHelp" className="form-text">Give your note a title</div>
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="description" className="form-label">Description</label>
-                                        <input type="text" className="form-control" id="edescription" name="edescription" value={editedNote.edescription} onChange={onChange} />
+                                        <input type="text" className="form-control" id="edescription" name="edescription" value={editedNote.edescription} onChange={onChange} minLength={5} required/>
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="tag" className="form-label">Tag</label>
@@ -56,8 +58,8 @@ const Notes = () => {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" className="btn btn-primary" onClick={handleEditNote}>Save changes</button>
+                            <button type="button" ref={modalCloseRef} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" className="btn btn-primary" onClick={handleEditNote} disabled={editedNote.etitle.length < 5 || editedNote.edescription.length < 5}>Update Note</button>
                         </div>
                     </div>
                 </div>
@@ -65,10 +67,11 @@ const Notes = () => {
             <div className="container my-3">
                 <h1>Your Notes    </h1>
                 <div className="row">
+                    {notes.length === 0 && <div className='mx-1'>No notes to display</div>}
                     {
                         notes.map(
                             (note, index) => {
-                                return <NoteItem note={note} key={index} openEditModal={() => {openEditModal(note)}}></NoteItem>
+                                return <NoteItem note={note} key={index} openEditModal={() => { handleEditModalChanges(note) }}></NoteItem>
                             }
                         )
                     }
