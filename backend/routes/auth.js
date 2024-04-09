@@ -15,13 +15,14 @@ router.post('/createuser',
     ],
     async (req, res) => {
         const result = validationResult(req);
+        let success = false
         if (!result.isEmpty()) {
-            return res.send({ errors: result.array() });
+            return res.send({ success, errors: result.array() });
         }
         try {
             let user0 = await User.findOne({ email: req.body.email })
             if (user0) {
-                return res.status(400).send({ error: "User already exists" })
+                return res.status(400).send({ success, error: "User already exists" })
             }
             console.log("Creating User")
             const salt = await bcrypt.genSalt(10)
@@ -37,18 +38,19 @@ router.post('/createuser',
                             }
                         }
                         const authToken = jwt.sign(userData, JWT_SECRET)
-                        res.send({ authToken })
+                        success = true
+                        res.send({ success, authToken })
                     }
                 )
                 .catch(
                     (err) => {
                         console.log({ error: err.message })
-                        res.send({ error: err.message })
+                        res.send({success, error: err.message })
                     }
                 )
         }
         catch (err) {
-            console.log({ error: err.message })
+            console.log({ success, error: err.message })
             res.status(500).send("Some error occurred")
         }
 
@@ -63,26 +65,28 @@ router.post(
     ],
     async (req, res) => {
         const result = validationResult(req);
+        let success = false
         if (!result.isEmpty()) {
-            return res.status(400).json({ Errors: result.array() });
+            return res.status(400).json({ success, Errors: result.array() });
         }
         const { email, password } = req.body
         try {
             let user = await User.findOne({ email })
             if (!user)
-                return res.status(400).json({ error: "Please try to login with correct credentials" })
+                return res.status(400).json({ success, error: "Please try to login with correct credentials" })
             console.log("User Found")
             const passwordCompareResult = await bcrypt.compare(password, user.password)
             console.log("Password Compare Result: " + passwordCompareResult)
             if (!passwordCompareResult)
-                return res.status(400).json({ error: "Please try to login with correct credentials" })
+                return res.status(400).json({ success, error: "Please try to login with correct credentials" })
             const userData = {
                 user: {
                     id: user.id
                 }
             }
             const authToken = jwt.sign(userData, JWT_SECRET)
-            res.send({ authToken })
+            success = true
+            res.send({ success, authToken })
         }
         catch (err) {
             console.log({ error: err.message })
