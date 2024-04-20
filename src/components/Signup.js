@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Signup = () => {
+const Signup = (props) => {
   const host = "http://localhost:5000"
   const emptyCredentials = { name: "", email: "", password: "", cpassword: "" }
   const [credentials, setCredentials] = useState(emptyCredentials)
   const navigate = useNavigate()
+  const {configureAlert: showAlert} = props
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value })
   }
@@ -29,9 +30,10 @@ const Signup = () => {
         localStorage.setItem('token', json.authToken)
         // redirect
         navigate("/")
+        props.showAlert("success", "Signup Successful")
     }
     else {
-        alert("Invalid Credentials")
+        props.showAlert("danger", "Invalid Credentials")
     }
 }
   return (

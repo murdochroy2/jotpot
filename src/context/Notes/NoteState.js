@@ -15,7 +15,7 @@ const NoteState = (props) => {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmZTdlZDkzNGM1ZDJiMzc1NDRiMDMyIn0sImlhdCI6MTcxMTE5MDc2N30.kzkbMDOJbYmqVMGeIPgsGiYL9SUxHQu-zWTYDxHwK_s"
+        "auth-token": localStorage.getItem("token")
       }
       // body: JSON.stringify(data) // body data type must match "Content-Type" header
     }
@@ -35,7 +35,7 @@ const NoteState = (props) => {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmZTdlZDkzNGM1ZDJiMzc1NDRiMDMyIn0sImlhdCI6MTcxMTE5MDc2N30.kzkbMDOJbYmqVMGeIPgsGiYL9SUxHQu-zWTYDxHwK_s"
+        "auth-token": localStorage.getItem("token")
       },
       body: JSON.stringify({ name: title, description: description, tag: tag}) // body data type must match "Content-Type" header
     }
@@ -54,7 +54,7 @@ const NoteState = (props) => {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmZTdlZDkzNGM1ZDJiMzc1NDRiMDMyIn0sImlhdCI6MTcxMTE5MDc2N30.kzkbMDOJbYmqVMGeIPgsGiYL9SUxHQu-zWTYDxHwK_s"
+        "auth-token": localStorage.getItem("token")
       },
     }
     const response = await fetch(url, requestInit)
@@ -80,7 +80,7 @@ const NoteState = (props) => {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmZTdlZDkzNGM1ZDJiMzc1NDRiMDMyIn0sImlhdCI6MTcxMTE5MDc2N30.kzkbMDOJbYmqVMGeIPgsGiYL9SUxHQu-zWTYDxHwK_s"
+        "auth-token": localStorage.getItem("token")
       },
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     }
@@ -99,7 +99,7 @@ const NoteState = (props) => {
       // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmZTdlZDkzNGM1ZDJiMzc1NDRiMDMyIn0sImlhdCI6MTcxMTE5MDc2N30.kzkbMDOJbYmqVMGeIPgsGiYL9SUxHQu-zWTYDxHwK_s"
+        "auth-token": localStorage.getItem("token")
       },
       // redirect: "follow", // manual, *follow, error
       // referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
