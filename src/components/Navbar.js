@@ -30,6 +30,9 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className={`nav-link ${inAbout ? 'active' : ''}`} to="/about">About</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/items">Items</Link>
+            </li>
           </ul>
           {loggedIn ?
             <form className="d-flex" role="search">

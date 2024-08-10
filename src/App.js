@@ -12,6 +12,7 @@ import Alert from './components/Alert';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import { useState } from 'react';
+import Items from './components/Items';
 function App() {
   const [alert, setAlert] = useState({})
   const showAlert = (type, message) => {
@@ -20,13 +21,18 @@ function App() {
       setAlert({})
     }, 1500);
   }
+  const [bodyClass, setBodyClass] = useState('container')
+  // Function to remove the class
+  const removeBodyClass = () => {
+    setBodyClass('');
+  };
   return (
     <>
       <NoteState>
         <Router>
           <Navbar></Navbar>
           <Alert alertType={alert.type} alertMessage={alert.message}></Alert>
-          <div className='container'>
+          <div className={`${bodyClass}`}>
             <Routes>
               <Route path="/" element={<Home showAlert={showAlert}/>}>
               </Route>
@@ -35,6 +41,8 @@ function App() {
               <Route path="/login" element={<Login showAlert={showAlert}/>}>
               </Route>
               <Route path="/signup" element={<Signup showAlert={showAlert}/>}>
+              </Route>
+              <Route path="/items" element={<Items removeBodyClass={removeBodyClass}/>}>
               </Route>
             </Routes>
           </div>
