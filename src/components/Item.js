@@ -1,15 +1,25 @@
 import React from 'react'
 
 const Item = (props) => {
-    const { Name: name, Position: position, Office: office, Age: age, "Start Date": start_date, Salary: salary } = props.data
+    const { name, type, currentLocation, previousLocation, area, updatedOn, updatedBy } = props.data;
+    const date = new Date(updatedOn);
+    const formattedDate = date.toLocaleString("en-US", {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      });
     return (
         <tr>
-            <td>{ name }</td>
-            <td>{ position }</td>
-            <td>{ office }</td>
-            <td>{ age }</td>
-            <td>{ start_date }</td>
-            <td>{ salary }</td>
+            <td>{name}</td>
+            <td>{type}</td>
+            <td>{currentLocation}</td>
+            <td>{previousLocation}</td>
+            <td>{area}</td>
+            <td>{formattedDate}</td>
+            <td>{updatedBy}</td>
         </tr>
     )
 }

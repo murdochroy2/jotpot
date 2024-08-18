@@ -13,6 +13,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import { useState } from 'react';
 import Items from './components/Items';
+import ItemStateProvider from './context/ItemStateProvider';
 function App() {
   const [alert, setAlert] = useState({})
   const showAlert = (type, message) => {
@@ -29,24 +30,26 @@ function App() {
   return (
     <>
       <NoteState>
-        <Router>
-          <Navbar></Navbar>
-          <Alert alertType={alert.type} alertMessage={alert.message}></Alert>
-          <div className={`${bodyClass}`}>
-            <Routes>
-              <Route path="/" element={<Home showAlert={showAlert}/>}>
-              </Route>
-              <Route path="/about" element={<About />}>
-              </Route>
-              <Route path="/login" element={<Login showAlert={showAlert}/>}>
-              </Route>
-              <Route path="/signup" element={<Signup showAlert={showAlert}/>}>
-              </Route>
-              <Route path="/items" element={<Items removeBodyClass={removeBodyClass}/>}>
-              </Route>
-            </Routes>
-          </div>
-        </Router>
+        <ItemStateProvider>
+          <Router>
+            <Navbar></Navbar>
+            <Alert alertType={alert.type} alertMessage={alert.message}></Alert>
+            <div className={`${bodyClass}`}>
+              <Routes>
+                <Route path="/" element={<Home showAlert={showAlert} />}>
+                </Route>
+                <Route path="/about" element={<About />}>
+                </Route>
+                <Route path="/login" element={<Login showAlert={showAlert} />}>
+                </Route>
+                <Route path="/signup" element={<Signup showAlert={showAlert} />}>
+                </Route>
+                <Route path="/items" element={<Items removeBodyClass={removeBodyClass} />}>
+                </Route>
+              </Routes>
+            </div>
+          </Router>
+        </ItemStateProvider>
       </NoteState>
     </>
   );

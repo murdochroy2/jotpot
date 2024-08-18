@@ -1,18 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs5';
 import StylizedTable from './StylizedTable';
 
 const Items = (props) => {
-    useEffect(() => {
-        props.removeBodyClass()
-        $(function() {
-            $(document).ready(function() {
-              $('#example').DataTable();
-            });
-          });
-    }, []
+    let tableRef = useRef()
+    const [table, setTable] = useState(null)
+    useEffect(
+        () => {
+            props.removeBodyClass()
+            // When items were updated, the first row of the table still showed no data available
+            // $(function () {
+            //     $(document).ready(function () {
+            //         $('#example').DataTable();
+            //     });
+            // });
+            // When items were added, the table was not updated
+            // const _table = $(tableRef.current).DataTable()
+            // setTable(_table)
+            // console.log(_table)
+        },
+        []
     )
     const style = {
         minHeight: '100vh',
@@ -32,7 +41,10 @@ const Items = (props) => {
                         </a>
                     </p>
                 </header>
-                <StylizedTable />
+                <StylizedTable
+                // These were passed to the StylizedTable component. But they could not be updated
+                // tableRef={tableRef} table={table}
+                />
             </div>
         </div>
     )

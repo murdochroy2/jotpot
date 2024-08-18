@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Item from './Item'
+import { useContext } from 'react'
+import itemContext from '../context/ItemContext'
+import $ from 'jquery';
 
-const StylizedTable = () => {
+const StylizedTable = (props) => {
     let data = [
         {
             "Name": "Tiger Nixon",
@@ -244,26 +247,73 @@ const StylizedTable = () => {
             "Salary": "$163,000"
         }
     ]
+    data = [
+        {
+            "_id": "66c04b7442540afce93fa651",
+            "name": "Item2",
+            "currentLocation": "Location2",
+            "previousLocation": null,
+            "area": "home",
+            "updatedOn": "2024-08-17T07:04:20.580Z",
+            "__v": 0
+        },
+        {
+            "_id": "66c05a59cfd587e06f2e65e6",
+            "name": "Item4",
+            "type": "document",
+            "currentLocation": "Location4",
+            "previousLocation": null,
+            "area": "home",
+            "updatedOn": "2024-08-17T08:07:53.677Z",
+            "__v": 0
+        }
+    ]
+    const { items, getItems } = useContext(itemContext)
+    const [table, setTable] = useState()
+    useEffect(() => {
+        getItems()
+            .then(
+                () => {
+                    console.log(`items`, items)
+                    // This is not working. The table would become empty
+                    //         if (table) {
+                    //             table.rows().invalidate().draw()
+                    //         }
+                }
+            );
+    }, []);
+
+    useEffect(() => {
+        // The table was not updated. It would still show no data available
+        //     const _table = $(`#example`).DataTable()
+        //     console.log(`_table`, _table)
+        //     setTable(_table)
+        if (items.length > 0)
+            $(`#example`).DataTable({ destroy: true })
+
+    }, [items])
+
     return (
         <div className="row py-5">
             <div className="col-lg-10 mx-auto">
                 <div className="card rounded shadow border-0">
                     <div className="card-body p-5 bg-white rounded">
                         <div className="table-responsive">
-                            <table id="example" style={{ "width": "100%" }} className="table table-striped table-bordered">
+                            <table id="example" style={{ "width": "100%" }} className="table table-striped table-bordered" ref={props.tableRef}>
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>Type</th>
+                                        <th>Current Location</th>
+                                        <th>Previous Location</th>
+                                        <th>Area</th>
+                                        <th>Updated On</th>
+                                        <th>Updated By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        data.map(
+                                        items.map(
                                             (item, index) => {
                                                 return <Item data={item} key={index} ></Item>
                                             }
