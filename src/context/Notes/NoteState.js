@@ -1,7 +1,7 @@
 import { useState } from "react"
 import NoteContext from "./NoteContext"
 const NoteState = (props) => {
-  const host = "http://localhost:5000"
+  const host = "http://104.196.160.151:5000"
   const defaultState = {
     name: "Rohi",
     class: 1
