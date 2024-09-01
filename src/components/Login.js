@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 const Login = (props) => {
     const emptyCredentials = { email: "", password: "" }
     const [credentials, setCredentials] = useState(emptyCredentials)
-    const host = process.env.HOST
+    const host = `${process.env.HOST}:${process.env.EXPRESS_PORT}`
     const navigate = useNavigate()
     const { showAlert } = props
     const handleLoginFormSubmit = async (e) => {
         e.preventDefault()
         setCredentials(emptyCredentials)
+        console.log("host: ", host)
         const url = `${host}/api/auth/login`
         const method = "POST"
         const requestInit = {
@@ -34,7 +35,7 @@ const Login = (props) => {
     const onChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
-    
+
     return (
         <div>
             <form onSubmit={handleLoginFormSubmit}>
