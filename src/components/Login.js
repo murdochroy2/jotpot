@@ -9,7 +9,7 @@ const Login = (props) => {
     const handleLoginFormSubmit = async (e) => {
         e.preventDefault()
         setCredentials(emptyCredentials)
-        _host = host? host: getHost()
+        const _host = host? host: getHost()
         const url = `${_host}/api/auth/login`
         const method = "POST"
         const requestInit = {
