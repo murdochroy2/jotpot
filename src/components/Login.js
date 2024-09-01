@@ -9,8 +9,8 @@ const Login = (props) => {
     const handleLoginFormSubmit = async (e) => {
         e.preventDefault()
         setCredentials(emptyCredentials)
-        host = host? host: getHost()
-        const url = `${host}/api/auth/login`
+        _host = host? host: getHost()
+        const url = `${_host}/api/auth/login`
         const method = "POST"
         const requestInit = {
             method: method, // *GET, POST, PUT, DELETE, etc.
@@ -41,9 +41,9 @@ const Login = (props) => {
         fetch('https://ifconfig.me/all.json')
             .then(response => response.json())
             .then(data => { externalIp = data.ip_addr; });
-        const host = `http://${externalIp}:5000`;
-        setHost(host)
-        return host
+        const _host = `http://${externalIp}:5000`;
+        setHost(_host)
+        return _host
     }
     return (
         <div>
