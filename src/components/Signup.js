@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Signup = (props) => {
-  const host = `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
+  const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
   const emptyCredentials = { name: "", email: "", password: "", cpassword: "" }
   const [credentials, setCredentials] = useState(emptyCredentials)
   const navigate = useNavigate()
