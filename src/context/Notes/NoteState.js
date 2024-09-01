@@ -1,7 +1,11 @@
 import { useState } from "react"
 import NoteContext from "./NoteContext"
 const NoteState = (props) => {
-  const host = "http://104.196.160.151:5000"
+  let externalIp
+  fetch('https://ifconfig.me/all.json')
+  .then(response => response.json())
+  .then(data => {externalIp = data.ip_addr;});
+  const host = `${externalIp}:5000`
   const defaultState = {
     name: "Rohi",
     class: 1

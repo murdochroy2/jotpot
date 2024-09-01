@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Signup = (props) => {
-  const host = "http://104.196.160.151:5000"
+  let externalIp
+  fetch('https://ifconfig.me/all.json')
+  .then(response => response.json())
+  .then(data => {externalIp = data.ip_addr;});
+  const host = `${externalIp}:5000`
   const emptyCredentials = { name: "", email: "", password: "", cpassword: "" }
   const [credentials, setCredentials] = useState(emptyCredentials)
   const navigate = useNavigate()
