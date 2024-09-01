@@ -7,7 +7,7 @@ const NoteState = (props) => {
   }
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
-  const host = `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
+  const host = `$http://{process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
   const getNotes = async () => {
     const url = `${host}/api/notes/fetchall`
     const method = "GET"
