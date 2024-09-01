@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 const Login = (props) => {
     const emptyCredentials = { email: "", password: "" }
     const [credentials, setCredentials] = useState(emptyCredentials)
-    const host = `${process.env.HOST}:${process.env.EXPRESS_PORT}`
+    const host = `${process.env.EXPRESS_HOST}:${process.env.EXPRESS_PORT}`
     const navigate = useNavigate()
     const { showAlert } = props
     const handleLoginFormSubmit = async (e) => {
