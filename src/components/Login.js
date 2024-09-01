@@ -9,8 +9,10 @@ const Login = (props) => {
     const handleLoginFormSubmit = async (e) => {
         e.preventDefault()
         setCredentials(emptyCredentials)
-        const _host = host? host: getHost()
-        const url = `${_host}/api/auth/login`
+        if (!host)
+            getHost()
+        console.log(host)
+        const url = `${host}/api/auth/login`
         const method = "POST"
         const requestInit = {
             method: method, // *GET, POST, PUT, DELETE, etc.
@@ -43,7 +45,6 @@ const Login = (props) => {
             .then(data => { externalIp = data.ip_addr; });
         const _host = `http://${externalIp}:5000`;
         setHost(_host)
-        return _host
     }
     return (
         <div>
