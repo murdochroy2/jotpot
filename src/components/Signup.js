@@ -6,7 +6,7 @@ const Signup = (props) => {
   fetch('https://ifconfig.me/all.json')
   .then(response => response.json())
   .then(data => {externalIp = data.ip_addr;});
-  const host = `${externalIp}:5000`
+  const host = `http://${externalIp}:5000`
   const emptyCredentials = { name: "", email: "", password: "", cpassword: "" }
   const [credentials, setCredentials] = useState(emptyCredentials)
   const navigate = useNavigate()
