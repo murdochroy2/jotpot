@@ -1,17 +1,13 @@
 import { useState } from "react"
 import NoteContext from "./NoteContext"
 const NoteState = (props) => {
-  let externalIp
-  fetch('https://ifconfig.me/all.json')
-  .then(response => response.json())
-  .then(data => {externalIp = data.ip_addr;});
-  const host = `http://${externalIp}:5000`
   const defaultState = {
-    name: "Rohi",
-    class: 1
+    name: "JotPot",
+    class: "What class?"
   }
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
+  const host = `${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
   const getNotes = async () => {
     const url = `${host}/api/notes/fetchall`
     const method = "GET"
