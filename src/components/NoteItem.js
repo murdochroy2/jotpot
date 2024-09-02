@@ -16,7 +16,7 @@ const NoteItem = (props) => {
     }
     return (
         <div className='col'>
-            <div className="card my-3" style={{ "width": "18rem", "min-height":"25vh"}}>
+            <div className="card my-3" style={{ "width": "18rem", "minHeight":"25vh"}}>
                 <div className="card-body">
                     <div className="d-flex align-items-center">
                         <h5 className="card-title">{note.name}</h5>
