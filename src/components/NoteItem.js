@@ -16,14 +16,14 @@ const NoteItem = (props) => {
     }
     return (
         <div className='col'>
-            <div className="card my-3" style={{ "width": "18rem" }}>
+            <div className="card my-3" style={{ "width": "18rem", "min-height":"25vh"}}>
                 <div className="card-body">
                     <div className="d-flex align-items-center">
                         <h5 className="card-title">{note.name}</h5>
                         <i className="fa-regular fa-trash-can mx-2" onClick={handleDelete}></i>
                         <i className="fa-regular fa-pen-to-square mx-2" onClick={handleEdit}></i>
                     </div>
-                    <p className="card-text">{note.description} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam maxime natus officiis quam, nesciunt ex veritatis itaque nobis, soluta rem perspiciatis? Blanditiis eum, corporis aliquam sapiente sed qui officia reprehenderit, dolorum accusamus labore eligendi?</p>
+                    <p className="card-text">{note.description}</p>
                 </div>
             </div>
         </div>
