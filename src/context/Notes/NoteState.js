@@ -1,13 +1,13 @@
 import { useState } from "react"
 import NoteContext from "./NoteContext"
 const NoteState = (props) => {
+  const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
   const defaultState = {
     name: "JotPot",
     class: "What class?"
   }
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
-  const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
   const getNotes = async () => {
     const url = `${host}/api/notes/fetchall`
     const method = "GET"
