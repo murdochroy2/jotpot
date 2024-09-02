@@ -15,7 +15,7 @@ const NoteItem = (props) => {
         openEditModal()
     }
     return (
-        <div className='col-sm-3'>
+        <div className='col'>
             <div className="card my-3" style={{ "width": "18rem" }}>
                 <div className="card-body">
                     <div className="d-flex align-items-center">
