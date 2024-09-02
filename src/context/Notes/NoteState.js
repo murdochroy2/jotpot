@@ -3,8 +3,8 @@ import NoteContext from "./NoteContext"
 const NoteState = (props) => {
   const host = "http://localhost:5000"
   const defaultState = {
-    name: "Rohi",
-    class: 1
+    name: "JotPot",
+    class: "What class?"
   }
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
