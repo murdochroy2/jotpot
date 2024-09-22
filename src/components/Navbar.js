@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = ({guestMode, setGuestMode}) => {
   const inAbout = useLocation().pathname === '/about'
   const inHome = useLocation().pathname === '/'
   let location = useLocation();
@@ -13,6 +13,7 @@ const Navbar = () => {
   const handleLogout = (e) => {
     e.preventDefault()
     localStorage.removeItem('token')
+    setGuestMode(false)
     navigate('/login')
   }
   return (
@@ -31,11 +32,12 @@ const Navbar = () => {
               <Link className={`nav-link ${inAbout ? 'active' : ''}`} to="/about">About</Link>
             </li>
           </ul>
-          {loggedIn ?
+          {loggedIn && !guestMode ?
             <form className="d-flex" role="search">
               <Link className="btn btn-primary mx-1" role="button" onClick={handleLogout}>Logout</Link>
             </form> :
             <form className="d-flex" role="search">
+              {guestMode && <Link className="btn btn-primary mx-1" to="/" role="button" onClick={handleLogout}>Guest Mode: Logout</Link>}
               <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
               <Link className="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
             </form>

@@ -14,6 +14,7 @@ import Signup from './components/Signup';
 import { useState } from 'react';
 function App() {
   const [alert, setAlert] = useState({})
+  const [guestMode, setGuestMode] = useState(localStorage.getItem('token') === "guest")
   const showAlert = (type, message) => {
     setAlert({ type, message })
     setTimeout(() => {
@@ -24,11 +25,11 @@ function App() {
     <>
       <NoteState>
         <Router>
-          <Navbar></Navbar>
+          <Navbar guestMode={guestMode} setGuestMode={setGuestMode}></Navbar>
           <Alert alertType={alert.type} alertMessage={alert.message}></Alert>
           <div className='container'>
             <Routes>
-              <Route path="/" element={<Home showAlert={showAlert}/>}>
+              <Route path="/" element={<Home showAlert={showAlert} setGuestMode={setGuestMode}/>}>
               </Route>
               <Route path="/about" element={<About />}>
               </Route>

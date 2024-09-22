@@ -9,10 +9,13 @@ const Notes = (props) => {
     const [editedNote, setEditedNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
     const navigate = useNavigate()
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        const token = localStorage.getItem("token")
+        if (token) {
             getNotes()
         } else {
-            navigate("/login")
+            localStorage.setItem("token", "guest")
+            props.setGuestMode(true)
+            getNotes(true)
         }
     }, []
     )

@@ -8,14 +8,15 @@ const NoteState = (props) => {
   }
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
-  const getNotes = async () => {
+  const getNotes = async (guest = false) => {
     const url = `${host}/api/notes/fetchall`
     const method = "GET"
+    const token = guest ? "guest" : localStorage.getItem("token")
     const requestInit = {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token")
+        "auth-token": token
       }
       // body: JSON.stringify(data) // body data type must match "Content-Type" header
     }
@@ -37,7 +38,7 @@ const NoteState = (props) => {
         "Content-Type": "application/json",
         "auth-token": localStorage.getItem("token")
       },
-      body: JSON.stringify({ name: title, description: description, tag: tag}) // body data type must match "Content-Type" header
+      body: JSON.stringify({ name: title, description: description, tag: tag }) // body data type must match "Content-Type" header
     }
     const response = await fetch(url, requestInit)
     const json = await response.json()
