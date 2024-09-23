@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import NoteContext from "./NoteContext"
+import AuthContext from "../AuthContext"
 const NoteState = (props) => {
   const host = "http://localhost:5000"
   const defaultState = {
@@ -8,10 +9,12 @@ const NoteState = (props) => {
   }
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
-  const getNotes = async (guest = false) => {
+  const { isGuest } = useContext(AuthContext)
+  const getNotes = async () => {
     const url = `${host}/api/notes/fetchall`
     const method = "GET"
-    const token = guest ? "guest" : localStorage.getItem("token")
+    const token = isGuest() ? "guest" : localStorage.getItem("token")
+    console.log("Inside getNotes ", token)
     const requestInit = {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {

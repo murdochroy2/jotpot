@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AuthContext from '../context/AuthContext'
 
 const Signup = (props) => {
   const host = "http://localhost:5000"
   const emptyCredentials = { name: "", email: "", password: "", cpassword: "" }
   const [credentials, setCredentials] = useState(emptyCredentials)
   const navigate = useNavigate()
+  const { setLoggedIn } = useContext(AuthContext)
   const {configureAlert: showAlert} = props
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -28,6 +30,7 @@ const Signup = (props) => {
     if (json.success) {
         console.log("Signup Successful")
         localStorage.setItem('token', json.authToken)
+        setLoggedIn(json.authToken)
         // redirect
         navigate("/")
         props.showAlert("success", "Signup Successful")
