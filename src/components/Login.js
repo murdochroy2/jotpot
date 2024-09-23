@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AuthContext from '../context/AuthContext'
 const Login = (props) => {
     const emptyCredentials = { email: "", password: "" }
     const [credentials, setCredentials] = useState(emptyCredentials)
     const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
     const navigate = useNavigate()
-    const { showAlert } = props
+    const {showAlert} = props
+    const { setLoggedIn } = useContext(AuthContext)
     const handleLoginFormSubmit = async (e) => {
         e.preventDefault()
         setCredentials(emptyCredentials)
@@ -25,6 +27,7 @@ const Login = (props) => {
         if (json.success) {
             console.log("Login Successful")
             localStorage.setItem('token', json.authToken)
+            setLoggedIn(json.authToken)
             // redirect
             navigate("/")
             showAlert("success", "Logged in successfully")

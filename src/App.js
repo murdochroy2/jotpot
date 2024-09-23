@@ -12,6 +12,7 @@ import Alert from './components/Alert';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import { useState } from 'react';
+import AuthContextProvider from './context/AuthContextProvider';
 function App() {
   const [alert, setAlert] = useState({})
   const showAlert = (type, message) => {
@@ -22,24 +23,26 @@ function App() {
   }
   return (
     <>
-      <NoteState>
-        <Router>
-          <Navbar></Navbar>
-          <Alert alertType={alert.type} alertMessage={alert.message}></Alert>
-          <div className='container'>
-            <Routes>
-              <Route path="/" element={<Home showAlert={showAlert}/>}>
-              </Route>
-              <Route path="/about" element={<About />}>
-              </Route>
-              <Route path="/login" element={<Login showAlert={showAlert}/>}>
-              </Route>
-              <Route path="/signup" element={<Signup showAlert={showAlert}/>}>
-              </Route>
-            </Routes>
-          </div>
-        </Router>
-      </NoteState>
+      <AuthContextProvider>
+        <NoteState>
+          <Router>
+            <Navbar></Navbar>
+            <Alert alertType={alert.type} alertMessage={alert.message}></Alert>
+            <div className='container'>
+              <Routes>
+                <Route path="/" element={<Home showAlert={showAlert} />}>
+                </Route>
+                <Route path="/about" element={<About />}>
+                </Route>
+                <Route path="/login" element={<Login showAlert={showAlert} />}>
+                </Route>
+                <Route path="/signup" element={<Signup showAlert={showAlert} />}>
+                </Route>
+              </Routes>
+            </div>
+          </Router>
+        </NoteState>
+      </AuthContextProvider>
     </>
   );
 }

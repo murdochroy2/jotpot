@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import NoteContext from "./NoteContext"
+import AuthContext from "../AuthContext"
 const NoteState = (props) => {
   const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
   const defaultState = {
@@ -8,14 +9,17 @@ const NoteState = (props) => {
   }
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
+  const { isGuest } = useContext(AuthContext)
   const getNotes = async () => {
     const url = `${host}/api/notes/fetchall`
     const method = "GET"
+    const token = isGuest() ? "guest" : localStorage.getItem("token")
+    console.log("Inside getNotes ", token)
     const requestInit = {
       method: method, // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token")
+        "auth-token": token
       }
       // body: JSON.stringify(data) // body data type must match "Content-Type" header
     }
@@ -37,7 +41,7 @@ const NoteState = (props) => {
         "Content-Type": "application/json",
         "auth-token": localStorage.getItem("token")
       },
-      body: JSON.stringify({ name: title, description: description, tag: tag}) // body data type must match "Content-Type" header
+      body: JSON.stringify({ name: title, description: description, tag: tag }) // body data type must match "Content-Type" header
     }
     const response = await fetch(url, requestInit)
     const json = await response.json()
