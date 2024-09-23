@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import AuthContext from '../context/AuthContext'
 
 const Navbar = () => {
+  const { isGuest, setLoggedIn } = useContext(AuthContext)
   const inAbout = useLocation().pathname === '/about'
   const inHome = useLocation().pathname === '/'
   let location = useLocation();
@@ -13,6 +15,7 @@ const Navbar = () => {
   const handleLogout = (e) => {
     e.preventDefault()
     localStorage.removeItem('token')
+    setLoggedIn(false) 
     navigate('/login')
   }
   return (
@@ -31,11 +34,12 @@ const Navbar = () => {
               <Link className={`nav-link ${inAbout ? 'active' : ''}`} to="/about">About</Link>
             </li>
           </ul>
-          {loggedIn ?
+          {loggedIn && !isGuest() ?
             <form className="d-flex" role="search">
               <Link className="btn btn-primary mx-1" role="button" onClick={handleLogout}>Logout</Link>
             </form> :
             <form className="d-flex" role="search">
+              {isGuest() && <Link className="btn btn-primary mx-1" to="/" role="button" onClick={handleLogout}>Guest Mode: Logout</Link>}
               <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
               <Link className="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
             </form>

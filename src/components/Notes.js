@@ -3,16 +3,21 @@ import noteContext from '../context/Notes/NoteContext'
 import NoteItem from './NoteItem'
 import AddNote from './AddNote'
 import { useNavigate } from 'react-router-dom'
-
+import AuthContext from '../context/AuthContext'
 const Notes = (props) => {
     const { notes, getNotes, editNote } = useContext(noteContext)
     const [editedNote, setEditedNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
     const navigate = useNavigate()
+    const { setLoggedIn } = useContext(AuthContext)
+    
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        const token = localStorage.getItem("token")
+        if (token) {
             getNotes()
         } else {
-            navigate("/login")
+            localStorage.setItem("token", "guest")
+            setLoggedIn("guest")
+            getNotes()
         }
     }, []
     )
