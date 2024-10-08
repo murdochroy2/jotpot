@@ -1,20 +1,28 @@
-import React, { useContext, useState } from 'react'
-import noteContext from '../context/Notes/NoteContext'
+import React, { useContext, useState } from 'react';
+import noteContext from '../context/Notes/NoteContext';
+import AuthContext from '../context/AuthContext';
 
 const AddNote = (props) => {
-    const { addNote } = useContext(noteContext)
-    const initialNote = { title: "", description: "", tag: "" }
-    const [addedNote, setAddedNote] = useState(initialNote)
-    const { showAlert } = props
+    const { addNote } = useContext(noteContext);
+    const { isGuest } = useContext(AuthContext);
+    const initialNote = { title: "", description: "", tag: "" };
+    const [addedNote, setAddedNote] = useState(initialNote);
+
     const handleAddNote = (e) => {
-        e.preventDefault()
-        addNote(addedNote.title, addedNote.description, addedNote.tag)
-        setAddedNote(initialNote)
-        showAlert("success", "Note Added Successfully")
-    }
+        e.preventDefault();
+        if (isGuest()) {
+            props.showAlert('warning', 'Sign in or Sing up to create notes');
+            return;
+        }
+        addNote(addedNote.title, addedNote.description, addedNote.tag);
+        setAddedNote(initialNote);
+        props.showAlert("success", "Note Added Successfully");
+    };
+
     const onChange = (e) => {
-        setAddedNote({ ...addedNote, [e.target.name]: e.target.value })
-    }
+        setAddedNote({ ...addedNote, [e.target.name]: e.target.value });
+    };
+
     return (
         <div className="container">
             <h1>Add a Note</h1>
@@ -31,12 +39,12 @@ const AddNote = (props) => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>
-                    <input type="text" className="form-control" id="tag" name="tag" onChange={onChange} value={addedNote.tag}/>
+                    <input type="text" className="form-control" id="tag" name="tag" onChange={onChange} value={addedNote.tag} />
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={handleAddNote} disabled={addedNote.title.length < 5 || addedNote.description.length < 5}>Submit</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default AddNote
+export default AddNote;
