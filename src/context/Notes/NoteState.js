@@ -2,7 +2,9 @@ import { useContext, useState } from "react"
 import NoteContext from "./NoteContext"
 import AuthContext from "../AuthContext"
 const NoteState = (props) => {
-  const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
+  const port = process.env.REACT_APP_HOST_PORT
+  const protocol = process.env.REACT_APP_HOST_PROTOCOL
+  const host = `${protocol}://${process.env.REACT_APP_HOST}${port ? port : ""}`
   const defaultState = {
     name: "JotPot",
     class: "What class?"

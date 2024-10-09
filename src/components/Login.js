@@ -4,9 +4,11 @@ import AuthContext from '../context/AuthContext'
 const Login = (props) => {
     const emptyCredentials = { email: "", password: "" }
     const [credentials, setCredentials] = useState(emptyCredentials)
-    const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
+    const port = process.env.REACT_APP_HOST_PORT
+    const protocol = process.env.REACT_APP_HOST_PROTOCOL
+    const host = `${protocol}://${process.env.REACT_APP_HOST}${port ? port : ""}`
     const navigate = useNavigate()
-    const {showAlert} = props
+    const { showAlert } = props
     const { setLoggedIn } = useContext(AuthContext)
     const handleLoginFormSubmit = async (e) => {
         e.preventDefault()

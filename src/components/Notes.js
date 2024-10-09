@@ -4,12 +4,15 @@ import NoteItem from './NoteItem'
 import AddNote from './AddNote'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
+import Alert from './Alert'
 const Notes = (props) => {
     const { notes, getNotes, editNote } = useContext(noteContext)
     const [editedNote, setEditedNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
     const navigate = useNavigate()
-    const { setLoggedIn } = useContext(AuthContext)
-    
+    const { setLoggedIn, isGuest } = useContext(AuthContext)
+
+    const [modalAlert, setModalAlert] = useState(null)
+
     useEffect(() => {
         const token = localStorage.getItem("token")
         if (token) {
@@ -29,16 +32,33 @@ const Notes = (props) => {
     }
     const handleEditNote = (e) => {
         e.preventDefault()
+        if (isGuest()) {
+            const alertMessage = "Please Sign In/Sign Up to edit notes"
+            showModalAlert("warning", alertMessage)
+            return;
+        }
         editNote(editedNote.id, editedNote.etitle, editedNote.edescription, editedNote.etag)
         modalCloseRef.current.click()
         props.showAlert("success", "Note Edited Successfully")
     }
+
     const onChange = (e) => {
         setEditedNote({ ...editedNote, [e.target.name]: e.target.value })
     }
+
+    const showModalAlert = (type, message) => {
+        const alertMessage = (
+            <Alert alertType={type} alertMessage={message} />
+        );
+        setModalAlert(alertMessage);
+        setTimeout(() => {
+            setModalAlert(null);
+        }, 1500);
+    }
+
     return (
         <>
-            <AddNote showAlert={props.showAlert}/>
+            <AddNote showAlert={props.showAlert} />
 
             <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
@@ -51,6 +71,7 @@ const Notes = (props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
+                            {modalAlert ? modalAlert : null}
                             <div className="container">
                                 <form>
                                     <div className="mb-3">
@@ -60,7 +81,7 @@ const Notes = (props) => {
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="description" className="form-label">Description</label>
-                                        <input type="text" className="form-control" id="edescription" name="edescription" value={editedNote.edescription} onChange={onChange} minLength={5} required/>
+                                        <input type="text" className="form-control" id="edescription" name="edescription" value={editedNote.edescription} onChange={onChange} minLength={5} required />
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="tag" className="form-label">Tag</label>
@@ -83,7 +104,7 @@ const Notes = (props) => {
                     {
                         notes.map(
                             (note, index) => {
-                                return <NoteItem note={note} key={index} openEditModal={() => { handleEditModalChanges(note) } } showAlert={props.showAlert}></NoteItem>
+                                return <NoteItem note={note} key={index} openEditModal={() => { handleEditModalChanges(note) }} showAlert={props.showAlert}></NoteItem>
                             }
                         )
                     }

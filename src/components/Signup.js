@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 const Signup = (props) => {
-  const host = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_HOST_PORT}`
+  const port = process.env.REACT_APP_HOST_PORT
+  const protocol = process.env.REACT_APP_HOST_PROTOCOL
+  const host = `${protocol}://${process.env.REACT_APP_HOST}${port ? port : ""}`
   const emptyCredentials = { name: "", email: "", password: "", cpassword: "" }
   const [credentials, setCredentials] = useState(emptyCredentials)
   const navigate = useNavigate()
