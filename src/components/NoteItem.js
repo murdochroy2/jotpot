@@ -1,11 +1,17 @@
 import React, { useContext } from 'react'
 import noteContext from '../context/Notes/NoteContext'
+import AuthContext from '../context/AuthContext'
 
 const NoteItem = (props) => {
     const { note, openEditModal } = props
     const { deleteNote, editNote } = useContext(noteContext)
     const {showAlert} = props
+    const { isGuest } = useContext(AuthContext)
     const handleDelete = () => {
+        if (isGuest()) {
+            props.showAlert('warning', 'Please Sign In/Sign Up to delete notes');
+            return;
+        }
         console.log(`Deleting Note with id: ${note._id}`)
         deleteNote(note._id)
         showAlert("success", "Note Deleted Successfully")
