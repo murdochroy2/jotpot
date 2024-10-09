@@ -4,11 +4,14 @@ import NoteItem from './NoteItem'
 import AddNote from './AddNote'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
+import Alert from './Alert'
 const Notes = (props) => {
     const { notes, getNotes, editNote } = useContext(noteContext)
     const [editedNote, setEditedNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
     const navigate = useNavigate()
-    const { setLoggedIn } = useContext(AuthContext)
+    const { setLoggedIn, isGuest } = useContext(AuthContext)
+
+    const [modalAlert, setModalAlert] = useState(null)
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -29,13 +32,30 @@ const Notes = (props) => {
     }
     const handleEditNote = (e) => {
         e.preventDefault()
+        if (isGuest()) {
+            const alertMessage = "Please Sign In/Sign Up to edit notes"
+            showModalAlert("warning", alertMessage)
+            return;
+        }
         editNote(editedNote.id, editedNote.etitle, editedNote.edescription, editedNote.etag)
         modalCloseRef.current.click()
         props.showAlert("success", "Note Edited Successfully")
     }
+
     const onChange = (e) => {
         setEditedNote({ ...editedNote, [e.target.name]: e.target.value })
     }
+
+    const showModalAlert = (type, message) => {
+        const alertMessage = (
+            <Alert alertType={type} alertMessage={message} />
+        );
+        setModalAlert(alertMessage);
+        setTimeout(() => {
+            setModalAlert(null);
+        }, 1500);
+    }
+
     return (
         <>
             <AddNote showAlert={props.showAlert} />
@@ -51,6 +71,7 @@ const Notes = (props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
+                            {modalAlert ? modalAlert : null}
                             <div className="container">
                                 <form>
                                     <div className="mb-3">
