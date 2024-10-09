@@ -11,7 +11,7 @@ const AddNote = (props) => {
     const handleAddNote = (e) => {
         e.preventDefault();
         if (isGuest()) {
-            props.showAlert('warning', 'Sign in or Sing up to create notes');
+            props.showAlert('warning', 'Please Sign In/Sign Up to create notes');
             return;
         }
         addNote(addedNote.title, addedNote.description, addedNote.tag);

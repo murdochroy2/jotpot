@@ -4,7 +4,8 @@ import AuthContext from '../context/AuthContext'
 
 const Signup = (props) => {
   const port = process.env.REACT_APP_HOST_PORT
-  const host = `https://${process.env.REACT_APP_HOST}${port ? port : ""}`
+  const protocol = process.env.REACT_APP_HOST_PROTOCOL
+  const host = `${protocol}://${process.env.REACT_APP_HOST}${port ? port : ""}`
   const emptyCredentials = { name: "", email: "", password: "", cpassword: "" }
   const [credentials, setCredentials] = useState(emptyCredentials)
   const navigate = useNavigate()

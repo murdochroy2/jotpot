@@ -9,7 +9,7 @@ const Notes = (props) => {
     const [editedNote, setEditedNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
     const navigate = useNavigate()
     const { setLoggedIn } = useContext(AuthContext)
-    
+
     useEffect(() => {
         const token = localStorage.getItem("token")
         if (token) {
@@ -38,7 +38,7 @@ const Notes = (props) => {
     }
     return (
         <>
-            <AddNote showAlert={props.showAlert}/>
+            <AddNote showAlert={props.showAlert} />
 
             <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
@@ -60,7 +60,7 @@ const Notes = (props) => {
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="description" className="form-label">Description</label>
-                                        <input type="text" className="form-control" id="edescription" name="edescription" value={editedNote.edescription} onChange={onChange} minLength={5} required/>
+                                        <input type="text" className="form-control" id="edescription" name="edescription" value={editedNote.edescription} onChange={onChange} minLength={5} required />
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="tag" className="form-label">Tag</label>
@@ -83,7 +83,7 @@ const Notes = (props) => {
                     {
                         notes.map(
                             (note, index) => {
-                                return <NoteItem note={note} key={index} openEditModal={() => { handleEditModalChanges(note) } } showAlert={props.showAlert}></NoteItem>
+                                return <NoteItem note={note} key={index} openEditModal={() => { handleEditModalChanges(note) }} showAlert={props.showAlert}></NoteItem>
                             }
                         )
                     }

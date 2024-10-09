@@ -3,7 +3,8 @@ import NoteContext from "./NoteContext"
 import AuthContext from "../AuthContext"
 const NoteState = (props) => {
   const port = process.env.REACT_APP_HOST_PORT
-  const host = `https://${process.env.REACT_APP_HOST}${port ? port : ""}`
+  const protocol = process.env.REACT_APP_HOST_PROTOCOL
+  const host = `${protocol}://${process.env.REACT_APP_HOST}${port ? port : ""}`
   const defaultState = {
     name: "JotPot",
     class: "What class?"
