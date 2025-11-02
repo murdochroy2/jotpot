@@ -9,19 +9,35 @@ const NoteState = (props) => {
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
   const getNotes = async () => {
-    const url = `${host}/api/notes/fetchall`
-    const method = "GET"
-    const requestInit = {
-      method: method, // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token")
+    try {
+      const url = `${host}/api/notes/fetchall`
+      const method = "GET"
+      const requestInit = {
+        method: method, // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token")
+        }
+        // body: JSON.stringify(data) // body data type must match "Content-Type" header
       }
-      // body: JSON.stringify(data) // body data type must match "Content-Type" header
+      const response = await fetch(url, requestInit)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const json = await response.json()
+      // Ensure json is an array before setting notes
+      if (Array.isArray(json)) {
+        setNotes(json)
+      } else {
+        console.error("Expected array from API, got:", json)
+        setNotes([]) // Fallback to empty array
+      }
+    } catch (error) {
+      console.error("Error fetching notes:", error)
+      setNotes([]) // Fallback to empty array on error
     }
-    const response = await fetch(url, requestInit)
-    const json = await response.json()
-    setNotes(json)
   }
   const update = () => {
     setTimeout(() => {

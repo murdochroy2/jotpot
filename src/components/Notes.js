@@ -74,9 +74,9 @@ const Notes = (props) => {
             <div className="container my-3">
                 <h1>Your Notes    </h1>
                 <div className="row">
-                    {notes.length === 0 && <div className='mx-1'>No notes to display</div>}
+                    {(!notes || notes.length === 0) && <div className='mx-1'>No notes to display</div>}
                     {
-                        notes.map(
+                        notes && Array.isArray(notes) && notes.map(
                             (note, index) => {
                                 return <NoteItem note={note} key={index} openEditModal={() => { handleEditModalChanges(note) } } showAlert={props.showAlert}></NoteItem>
                             }

@@ -27,6 +27,11 @@ const ItemSchema = new mongoose.Schema({
   },
   updatedBy: {
     type: String
+  },
+  // Image data stored as object containing metadata for local storage reference
+  imageData: {
+    type: Object,
+    default: null
   }
 });
 

@@ -44,12 +44,68 @@ router.post(
 );
 
 const defaultArea = "home";
+
+// Sample data based on StylizedTable
+const sampleItems = [
+    {
+        name: "Tiger Nixon",
+        type: "Person",
+        currentLocation: "Edinburgh Office",
+        previousLocation: null,
+        area: defaultArea,
+        updatedOn: new Date("2011-04-25"),
+        updatedBy: "System"
+    },
+    {
+        name: "Garrett Winters",
+        type: "Person",
+        currentLocation: "Tokyo Office",
+        previousLocation: null,
+        area: defaultArea,
+        updatedOn: new Date("2011-07-25"),
+        updatedBy: "System"
+    },
+    {
+        name: "Ashton Cox",
+        type: "Person",
+        currentLocation: "San Francisco Office",
+        previousLocation: null,
+        area: defaultArea,
+        updatedOn: new Date("2009-01-12"),
+        updatedBy: "System"
+    },
+    {
+        name: "Cedric Kelly",
+        type: "Person",
+        currentLocation: "Edinburgh Office",
+        previousLocation: null,
+        area: defaultArea,
+        updatedOn: new Date("2012-03-29"),
+        updatedBy: "System"
+    },
+    {
+        name: "Airi Satou",
+        type: "Person",
+        currentLocation: "Tokyo Office",
+        previousLocation: null,
+        area: defaultArea,
+        updatedOn: new Date("2008-11-28"),
+        updatedBy: "System"
+    }
+];
+
 // Get all items
 router.get('/list', async (req, res) => {
     try {
-        const area = defaultArea; // TODO: Get from query parameter or filter by ip address
+        // TODO: Get from query parameter or filter by ip address
         const items = await ItemModel.find();
-        res.json(items);
+        
+        // If no items found, return sample data
+        if (items.length === 0) {
+            res.json(sampleItems);
+        } else {
+            res.json(items);
+        }
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to retrieve items' });
