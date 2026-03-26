@@ -1,15 +1,12 @@
-require('dotenv').config()
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const connectToMongo = require("./db");
 const express = require('express')
 var cors = require('cors')
-const dotenv = require('dotenv')
 const fs = require('fs');
 const https = require('https');
-const path = require('path');
 const http = require('http');
-
-dotenv.config()
 
 const app = express()
 // const port = 5000
