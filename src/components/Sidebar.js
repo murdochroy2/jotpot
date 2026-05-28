@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import APP_NAME from '../config'
 
 const Sidebar = ({ noteCount, tags, activeTag, onTagSelect, isGuest, onLogout }) => {
   const navigate = useNavigate()
@@ -8,7 +9,7 @@ const Sidebar = ({ noteCount, tags, activeTag, onTagSelect, isGuest, onLogout })
     <aside className="sidebar">
       <div className="sidebar-header">
         <span className="sidebar-logo-icon">✍</span>
-        <span className="sidebar-logo">JotPot</span>
+        <span className="sidebar-logo">{APP_NAME}</span>
       </div>
 
       <nav className="sidebar-nav">

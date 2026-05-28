@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
+import APP_NAME from '../config'
 
 const Login = (props) => {
   const emptyCredentials = { email: "", password: "" }
@@ -37,7 +38,7 @@ const Login = (props) => {
 
   return (
     <div className="auth-card">
-      <div className="auth-brand">✍ JotPot</div>
+      <div className="auth-brand">✍ {APP_NAME}</div>
       <h2 className="auth-title">Welcome back</h2>
       <p className="auth-subtitle">Sign in to access your notes</p>
 

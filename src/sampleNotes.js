@@ -1,8 +1,10 @@
+import APP_NAME from './config'
+
 const sampleNotes = [
   {
     _id: 'sample-1',
-    name: "Welcome to JotPot",
-    description: "JotPot is your personal note-taking space. Create notes, organize by tags, and access them anywhere. Sign in to start building your own collection.",
+    name: `Welcome to ${APP_NAME}`,
+    description: `${APP_NAME} is your personal note-taking space. Create notes, organize by tags, and access them anywhere. Sign in to start building your own collection.`,
     tag: "General",
     date: new Date().toISOString()
   },

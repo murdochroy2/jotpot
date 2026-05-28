@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
+import APP_NAME from '../config'
 
 const Signup = (props) => {
   const port = process.env.REACT_APP_HOST_PORT
@@ -38,7 +39,7 @@ const Signup = (props) => {
 
   return (
     <div className="auth-card">
-      <div className="auth-brand">✍ JotPot</div>
+      <div className="auth-brand">✍ {APP_NAME}</div>
       <h2 className="auth-title">Create account</h2>
       <p className="auth-subtitle">Start taking notes in seconds</p>
 

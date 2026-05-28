@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
+import APP_NAME from '../config'
 
 const AuthHeader = () => {
   const { isGuest, setLoggedIn } = useContext(AuthContext)
@@ -19,7 +20,7 @@ const AuthHeader = () => {
     <header className="auth-header">
       <Link to="/" className="auth-header-brand">
         <span className="auth-header-brand-icon">✍</span>
-        <span>JotPot</span>
+        <span>{APP_NAME}</span>
       </Link>
       <nav className="auth-header-nav">
         <Link to="/" className={`auth-header-link ${location.pathname === '/' ? 'active' : ''}`}>Notes</Link>

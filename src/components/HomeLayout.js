@@ -24,11 +24,6 @@ const HomeLayout = ({ showAlert }) => {
     getNotes().catch(() => {})
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (notes.length > 0 && !selectedNote) {
-      setSelectedNote(notes[0])
-    }
-  }, [notes]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogout = () => {
     localStorage.removeItem('token')

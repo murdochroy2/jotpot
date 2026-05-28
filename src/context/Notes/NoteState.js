@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import NoteContext from "./NoteContext"
 import AuthContext from "../AuthContext"
 import sampleNotes from "../../sampleNotes"
+import APP_NAME from "../../config"
 
 const GUEST_NOTES_KEY = 'jotpot_guest_notes'
 
@@ -22,7 +23,7 @@ const NoteState = (props) => {
   const protocol = process.env.REACT_APP_HOST_PROTOCOL
   const host = `${protocol}://${process.env.REACT_APP_HOST}${port ? `:${port}` : ""}`
   const defaultState = {
-    name: "JotPot",
+    name: APP_NAME,
     class: "What class?"
   }
   const [state, setState] = useState(defaultState)
