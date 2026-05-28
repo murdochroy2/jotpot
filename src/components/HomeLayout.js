@@ -35,18 +35,10 @@ const HomeLayout = ({ showAlert }) => {
   }
 
   const handleNewNote = () => {
-    if (isGuest()) {
-      showAlert('warning', 'Please Sign In to create notes')
-      return
-    }
     setSelectedNote('new')
   }
 
   const handleAdd = async (title, description, tag) => {
-    if (isGuest()) {
-      showAlert('warning', 'Please Sign In to create notes')
-      return
-    }
     await addNote(title, description, tag)
     setSelectedNote(null)
     showAlert('success', 'Note added')

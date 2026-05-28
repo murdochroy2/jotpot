@@ -54,6 +54,19 @@ const NoteState = (props) => {
   }
 
   const addNote = async (title, description, tag) => {
+    if (isGuest()) {
+      const newNote = {
+        _id: `guest-${Date.now()}`,
+        name: title,
+        description,
+        tag: tag || 'General',
+        date: new Date().toISOString()
+      }
+      const newNotes = notes.concat(newNote)
+      setNotes(newNotes)
+      saveGuestNotes(newNotes)
+      return
+    }
     const url = `${host}/api/notes/add`
     const requestInit = {
       method: "POST",
