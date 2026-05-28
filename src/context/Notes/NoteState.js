@@ -1,6 +1,22 @@
 import { useContext, useState } from "react"
 import NoteContext from "./NoteContext"
 import AuthContext from "../AuthContext"
+import sampleNotes from "../../sampleNotes"
+
+const GUEST_NOTES_KEY = 'jotpot_guest_notes'
+
+const loadGuestNotes = () => {
+  try {
+    const stored = localStorage.getItem(GUEST_NOTES_KEY)
+    if (stored) return JSON.parse(stored)
+  } catch {}
+  return null
+}
+
+const saveGuestNotes = (notes) => {
+  localStorage.setItem(GUEST_NOTES_KEY, JSON.stringify(notes))
+}
+
 const NoteState = (props) => {
   const port = process.env.REACT_APP_HOST_PORT
   const protocol = process.env.REACT_APP_HOST_PROTOCOL
@@ -12,109 +28,83 @@ const NoteState = (props) => {
   const [state, setState] = useState(defaultState)
   const [notes, setNotes] = useState([])
   const { isGuest } = useContext(AuthContext)
+
   const getNotes = async () => {
+    if (isGuest()) {
+      setNotes(loadGuestNotes() ?? sampleNotes)
+      return
+    }
     const url = `${host}/api/notes/fetchall`
-    const method = "GET"
-    const token = isGuest() ? "guest" : localStorage.getItem("token")
-    console.log("Inside getNotes ", token)
     const requestInit = {
-      method: method, // *GET, POST, PUT, DELETE, etc.
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": token
+        "auth-token": localStorage.getItem("token")
       }
-      // body: JSON.stringify(data) // body data type must match "Content-Type" header
     }
     const response = await fetch(url, requestInit)
     const json = await response.json()
     setNotes(json)
   }
+
   const update = () => {
     setTimeout(() => {
       setState({ name: "Modak", "class": 2 })
     }, 1000);
   }
+
   const addNote = async (title, description, tag) => {
     const url = `${host}/api/notes/add`
-    const method = "POST"
     const requestInit = {
-      method: method, // *GET, POST, PUT, DELETE, etc.
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         "auth-token": localStorage.getItem("token")
       },
-      body: JSON.stringify({ name: title, description: description, tag: tag }) // body data type must match "Content-Type" header
+      body: JSON.stringify({ name: title, description: description, tag: tag })
     }
     const response = await fetch(url, requestInit)
     const json = await response.json()
-    console.log("Note added")
-    console.log(json)
-    const addedNote = json
-    setNotes(notes.concat(addedNote))
-  }
-  const deleteNote = async (id) => {
-    const newNotes = notes.filter(note => note._id !== id)
-    const url = `${host}/api/notes/delete/${id}`
-    const method = "DELETE"
-    const requestInit = {
-      method: method, // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token")
-      },
-    }
-    const response = await fetch(url, requestInit)
-    const json = await response.json()
-    console.log("Note deleted", json)
-    setNotes(newNotes)
-  }
-  const editNote = async (id, title, description, tag) => {
-    const editedNotes = notes.map(
-      note => {
-        if (note._id === id) {
-          note.name = title
-          note.description = description
-          note.tag = tag
-        }
-        return note
-      }
-    )
-    const url = `${host}/api/notes/update/${id}`
-    const method = "PUT"
-    const data = { name: title, description: description, tag: tag }
-    const requestInit = {
-      method: method, // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
-    }
-    const response = await fetch(url, requestInit)
-    const status = response.status
-    status === 200 && setNotes(editedNotes)
+    setNotes(notes.concat(json))
   }
 
-  // Example POST method implementation:
-  const makeRequest = async (url = "", data = {}, method = "PUT") => {
-    // Default options are marked with *
+  const deleteNote = async (id) => {
+    const newNotes = notes.filter(note => note._id !== id)
+    if (isGuest()) {
+      setNotes(newNotes)
+      saveGuestNotes(newNotes)
+      return
+    }
     const requestInit = {
-      method: method, // *GET, POST, PUT, DELETE, etc.
-      // mode: "cors", // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token")
+      }
+    }
+    await fetch(`${host}/api/notes/delete/${id}`, requestInit)
+    setNotes(newNotes)
+  }
+
+  const editNote = async (id, title, description, tag) => {
+    const editedNotes = notes.map(note =>
+      note._id === id ? { ...note, name: title, description, tag } : note
+    )
+    if (isGuest()) {
+      setNotes(editedNotes)
+      saveGuestNotes(editedNotes)
+      return
+    }
+    const requestInit = {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token": localStorage.getItem("token")
       },
-      // redirect: "follow", // manual, *follow, error
-      // referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      // body: JSON.stringify(data) // body data type must match "Content-Type" header
+      body: JSON.stringify({ name: title, description, tag })
     }
-    if (data !== {}) { requestInit.body = JSON.stringify(data) }
-    const response = await fetch(url, requestInit)
-    const json = await response.json()
-    return json; // parses JSON response into native JavaScript objects
+    const response = await fetch(`${host}/api/notes/update/${id}`, requestInit)
+    response.status === 200 && setNotes(editedNotes)
   }
 
   return (<NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, state, update, getNotes }}>

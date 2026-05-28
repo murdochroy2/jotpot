@@ -5,7 +5,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import Navbar from './components/Navbar';
+import AuthHeader from './components/AuthHeader';
 import Home from './components/Home';
 import About from './components/About';
 import NoteState from './context/Notes/NoteState';
@@ -19,6 +19,7 @@ function AppContent() {
   const [alert, setAlert] = useState({})
   const location = useLocation()
   const isHome = location.pathname === '/'
+  const isAuthPage = ['/login', '/signup'].includes(location.pathname)
 
   const showAlert = (type, message) => {
     setAlert({ type, message })
@@ -29,8 +30,8 @@ function AppContent() {
 
   return (
     <>
-      {!isHome && <Navbar />}
-      <Alert alertType={alert.type} alertMessage={alert.message} toast={isHome} />
+      {!isHome && <AuthHeader />}
+      <Alert alertType={alert.type} alertMessage={alert.message} toast={isHome || isAuthPage} />
       <Routes>
         <Route path="/" element={<Home showAlert={showAlert} />} />
         <Route path="/about" element={<div className="auth-page"><div className="auth-card"><About /></div></div>} />

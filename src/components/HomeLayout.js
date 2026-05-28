@@ -53,19 +53,11 @@ const HomeLayout = ({ showAlert }) => {
   }
 
   const handleSave = async (id, title, description, tag) => {
-    if (isGuest()) {
-      showAlert('warning', 'Please Sign In to edit notes')
-      return
-    }
     await editNote(id, title, description, tag)
     showAlert('success', 'Note updated')
   }
 
   const handleDelete = (id) => {
-    if (isGuest()) {
-      showAlert('warning', 'Please Sign In to delete notes')
-      return
-    }
     deleteNote(id)
     setSelectedNote(null)
     showAlert('success', 'Note deleted')

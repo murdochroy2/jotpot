@@ -3,9 +3,11 @@ const { body, validationResult } = require('express-validator');
 
 const router = express.Router()
 const User = require('../models/User')
+const Notes = require('../models/Notes')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const fetchuser = require('../middleware/fetchuser')
+const sampleNotes = require('../sampleNotes')
 const JWT_SECRET = "the jwt secret"
 
 router.post('/createuser',
@@ -30,8 +32,10 @@ router.post('/createuser',
             const user = new User({ name: req.body.name, email: req.body.email, password: securePassword })
             user.save()
                 .then(
-                    () => {
+                    async () => {
                         console.log("User Created")
+                        const noteDocs = sampleNotes.map(note => ({ ...note, user: user.id }))
+                        await Notes.insertMany(noteDocs)
                         const userData = {
                             user: {
                                 id: user.id
