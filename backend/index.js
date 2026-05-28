@@ -10,6 +10,7 @@ const http = require('http');
 
 const app = express()
 // const port = 5000
+app.use(cors())
 app.use(express.json())
 
 // Serve React static files from the 'build' directory
@@ -23,8 +24,6 @@ app.use('/v2', require('./routes/news'));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
-
-app.use(cors())
 
 const port = 5000
 app.listen(port, "0.0.0.0", () => {

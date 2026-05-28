@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  useLocation,
 } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -13,37 +14,42 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import { useState } from 'react';
 import AuthContextProvider from './context/AuthContextProvider';
-function App() {
+
+function AppContent() {
   const [alert, setAlert] = useState({})
+  const location = useLocation()
+  const isHome = location.pathname === '/'
+
   const showAlert = (type, message) => {
     setAlert({ type, message })
     setTimeout(() => {
       setAlert({})
-    }, 1500);
+    }, 2500);
   }
+
   return (
     <>
-      <AuthContextProvider>
-        <NoteState>
-          <Router>
-            <Navbar></Navbar>
-            <Alert alertType={alert.type} alertMessage={alert.message}></Alert>
-            <div className='container'>
-              <Routes>
-                <Route path="/" element={<Home showAlert={showAlert} />}>
-                </Route>
-                <Route path="/about" element={<About />}>
-                </Route>
-                <Route path="/login" element={<Login showAlert={showAlert} />}>
-                </Route>
-                <Route path="/signup" element={<Signup showAlert={showAlert} />}>
-                </Route>
-              </Routes>
-            </div>
-          </Router>
-        </NoteState>
-      </AuthContextProvider>
+      {!isHome && <Navbar />}
+      <Alert alertType={alert.type} alertMessage={alert.message} toast={isHome} />
+      <Routes>
+        <Route path="/" element={<Home showAlert={showAlert} />} />
+        <Route path="/about" element={<div className="auth-page"><div className="auth-card"><About /></div></div>} />
+        <Route path="/login" element={<div className="auth-page"><Login showAlert={showAlert} /></div>} />
+        <Route path="/signup" element={<div className="auth-page"><Signup showAlert={showAlert} /></div>} />
+      </Routes>
     </>
+  );
+}
+
+function App() {
+  return (
+    <AuthContextProvider>
+      <NoteState>
+        <Router>
+          <AppContent />
+        </Router>
+      </NoteState>
+    </AuthContextProvider>
   );
 }
 

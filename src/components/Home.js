@@ -1,12 +1,8 @@
 import React from 'react'
-import Notes from './Notes'
+import HomeLayout from './HomeLayout'
 
 const Home = (props) => {
-  return (
-    <div>
-      <Notes showAlert={props.showAlert} setGuestMode={props.setGuestMode}></Notes>
-    </div>
-  )
+  return <HomeLayout showAlert={props.showAlert} />
 }
 
 export default Home
