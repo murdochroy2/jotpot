@@ -26,7 +26,10 @@ const NoteListPanel = ({ notes, selectedNote, search, onSearch, onNewNote, onSel
         </button>
       </div>
 
-      <div className="note-list">
+      <div
+        className="note-list"
+        onClick={e => { if (e.target === e.currentTarget) onSelectNote(null) }}
+      >
         {notes.length === 0 ? (
           <div className="note-list-empty">
             {search ? 'No notes match your search.' : 'No notes yet.\nClick "+ New Note" to get started.'}
