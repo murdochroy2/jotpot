@@ -1,7 +1,9 @@
+const APP_NAME = process.env.REACT_APP_NAME || 'JotPot'
+
 const sampleNotes = [
   {
-    name: "Welcome to JotPot",
-    description: "JotPot is your personal note-taking space. Create notes, organize by tags, and access them anywhere. Sign in to start building your own collection.",
+    name: `Welcome to ${APP_NAME}`,
+    description: `${APP_NAME} is your personal note-taking space. Create notes, organize by tags, and access them anywhere. Sign in to start building your own collection.`,
     tag: "General"
   },
   {
