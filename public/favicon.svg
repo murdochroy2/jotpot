@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dark rounded background -->
+  <rect width="100" height="100" rx="22" fill="#1c1c1e"/>
+
+  <!-- Pencil rotated 45°, pointing bottom-right -->
+  <g transform="translate(50,50) rotate(45) translate(-8,-34)">
+    <!-- Eraser cap -->
+    <rect x="0" y="0" width="16" height="11" rx="3" fill="#ff6b6b"/>
+    <!-- Metal ferrule -->
+    <rect x="0" y="11" width="16" height="6" fill="#b0b0b0"/>
+    <!-- Pencil body -->
+    <rect x="0" y="17" width="16" height="38" fill="#f5f4f0"/>
+    <!-- Wood tip -->
+    <polygon points="0,55 16,55 8,68" fill="#d4a96a"/>
+    <!-- Lead -->
+    <polygon points="4,62 12,62 8,68" fill="#555555"/>
+  </g>
+</svg>
