@@ -11,7 +11,10 @@ const http = require('http');
 
 const app = express()
 // const port = 5000
-app.use(cors())
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : [];
+app.use(cors({ origin: allowedOrigins, credentials: true }))
 app.use(express.json())
 
 // Serve React static files from the 'build' directory
